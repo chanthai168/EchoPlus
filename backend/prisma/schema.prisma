@@ -1,0 +1,53 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  USER
+  ADMIN
+  MODERATOR
+}
+
+enum MessageRole{
+  User
+  Model
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  role      Role     @default(USER)
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  chatId    String   @map("chat_id") @db.VarChar(255)
+  role      MessageRole
+  content   String   @db.Text
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([chatId, createdAt(sort: Desc)])
+  @@map("messages")
+}
+
+model Transcribe {
+  id                 String   @id @default(uuid())
+  audio_name         String
+  transcription      String
+  url                String
+  transcription_json Json
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
