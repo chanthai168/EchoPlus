@@ -11,9 +11,9 @@ import { useStage } from "../../context/StageContext";
 import { useCharacter } from "../../context/CharacterContext";
 
 const characters = new Map<string, string>([
-  ['mikasa', mikasa],
-  ['pain', pain],
-  ['levi', levi]
+  ['Mikasa', mikasa],
+  ['Pain', pain],
+  ['Levi', levi]
 ]);
 
 export default function AnimeBackground() {
@@ -68,19 +68,16 @@ export default function AnimeBackground() {
 
 
 //className=" fixed inset-0 -z-10 h-[200%] top-[80%] translate-y-[-50%]  left-[50%] translate-x-[-50%]    md:w-[128vw] "
-  return (
-   <>
-    
-        <div
-          ref={wrapperRef}
-          className="fixed inset-0 w-full -z-10 top-[30%] translate-y-[-50%]  left-[50%] translate-x-[-50%]    "
-          style={{ transform: "translate3d(0, 0, 0)" }} // initial
-        >
-
-        <img src={characters.get(character)}  />
-        </div>
-
-       </>   
-    
-  );
+return (
+  <div
+    ref={wrapperRef}
+    className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-fit h-screen -z-10 pointer-events-none"
+  >
+    <img
+      src={characters.get(character)}
+      alt={character}
+      className="h-screen w-auto lg:w-screen lg:h-auto max-w-none"
+    />
+  </div>
+);
 }

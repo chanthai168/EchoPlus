@@ -11,6 +11,7 @@ import VoiceRecorder from '../components/chat/Recorder';
 import { useVoiceStreamer } from '../components/hooks/useVoiceStreamer';
 import RecordingIndicator from '../components/public/RecordingIndicator';
 import Transcript from '../components/chat/Transcript';
+import { useCharacter } from '../context/CharacterContext';
 
 import { VoiceVisualizer } from '../components/chat/visualizer/VoiceVisualizer';
 import { SphereVisualizer } from '../components/chat/visualizer/SphereVisualizer';
@@ -66,6 +67,8 @@ export function Chat() {
 
   const { notifications, removeNotification, NotificationSuccess, NotificationError } = useNotifications();
   const { isRecording, startRecording, stopRecording,interim,finals,isReady,setIsReady } = useVoiceStreamer();
+
+  const {character} = useCharacter();
 
   // phase -> character stage
   useEffect(() => {
@@ -168,6 +171,9 @@ export function Chat() {
     }
   }, [isReady,isRecording, NotificationSuccess]);
 
+  let characterName = character.toString();
+  characterName.toUpperCase();
+
   return (
     <div>
 
@@ -181,14 +187,14 @@ export function Chat() {
 
       {/* conversation list: unchanged, but add key={i} to the .map item */}
 
-      <div className='h-150 flex justify-end '>
+      <div className='h-150 flex justify-end  '>
         {isChatListOpen && (
           <div 
               ref={outerScrollRef}
               onScroll={onOuterScroll}
               className=' flex flex-col overflow-auto no-scrollbar items-end px-4'>
               {conversation.map(data =>(
-                <div className='w-[35vw] '>
+                <div className='w-[75vw] lg:w-[35vw] '>
 
                   <div>
                       <div className='mt-12 flex gap-2 flex-col items-end'>
@@ -206,17 +212,9 @@ export function Chat() {
                   <div>
                     <div className='mt-12 flex flex-col  gap-4 '>
                       <div className='flex gap-2'>
-                      
-                        <div className=' w-18 h-18 overflow-hidden  shrink-0 bg-gray-300 shader-2xl border-2 border-white overflow-hidden rounded-full flex items-center justify-center '>
-                          <img
-                            src={razeFlirt}
-                            alt="raze"
-                            className="h-auto  "
-                          />
-                        </div>
 
                         <div className=' w-full flex flex-col gap-2'>
-                          <p className=' text-xl '><span className=' glass rounded-full px-2'><span className='bg-linear-to-r from-green-700 to-blue-500 bg-clip-text text-transparent'>Pain</span></span></p>
+                          <p className=' text-xl '><span className=' glass rounded-full px-2'><span className='bg-linear-to-r from-green-700 to-blue-500 bg-clip-text text-transparent'>{characterName}</span></span></p>
                           <div className='relative max-h-28 overflow-y-scroll no-scrollbar '
                             ref={scrollRef}
                             onScroll={onScroll}
@@ -249,7 +247,7 @@ export function Chat() {
         </div>
 
 
-        <div className="glass relative rounded-3xl flex gap-4 justify-end items-end w-[35vw]">
+        <div className="glass relative rounded-3xl flex gap-4 justify-end items-end w-[90vw] sm:w-[35vw] lg:w-[35vw]">
           {isRecording && (
             <div className='absolute z-30 left-0 -top-4'>
               <RecordingIndicator dotCount={6} color='blue'/>

@@ -13,19 +13,19 @@ type NavItem = {
 };
 
 const leftLinks: NavItem[] = [
-  { label: "Page →" },
-  { label: "Home", to: "/" },
-  { label: "History", to: "/history" },
-  { label: "Services", to: "/services" },
-  { label: "Contact", to: "/contact" },
+  { label: "Comming Soon →" },
+  { label: "Sukuna", to: "#" },
+  { label: "Thorffin", to: "#" },
+  { label: "Makima", to: "#" },
+  { label: "Raze", to: "#" },
 ];
 
 const rightLinks: NavItem[] = [
   { label: "Character →" },
-  { label: "Mikasa", to: "mikasa" },
-  { label: "Pain", to: "pain" },
-  { label: "Levi", to: "levi" },
-  { label: "Konan", to: "mikasa" },
+  { label: "Mikasa", to: "Mikasa" },
+  { label: "Pain", to: "Pain" },
+  { label: "Levi", to: "Levi" },
+  { label: "Konan", to: "Mikasa" },
 ];
 
 const NavBar = () => {

@@ -2,7 +2,7 @@
 import { createContext, useContext, useState, useMemo, type ReactNode } from 'react';
 
 // ---- 1. Define the possible characters ----
-export type Character = 'mikasa' | 'pain' | 'levi';
+export type Character = 'Mikasa' | 'Pain' | 'Levi';
 
 // ---- 2. Define the shape of the context value ----
 type CharacterContextValue = {
@@ -19,7 +19,7 @@ const CharacterContext = createContext<CharacterContextValue | undefined>(undefi
 // ---- 4. Provider component ----
 export function CharacterProvider({
   children,
-  initial = 'mikasa',
+  initial = 'Mikasa',
 }: {
   children: ReactNode;
   initial?: Character;
@@ -27,7 +27,7 @@ export function CharacterProvider({
   const [character, setCharacter] = useState<Character>(initial);
 
   const value = useMemo<CharacterContextValue>(() => {
-    const order: Character[] = ['mikasa', 'pain', 'levi'];
+    const order: Character[] = ['Mikasa', 'Pain', 'Levi'];
 
     return {
       character,
