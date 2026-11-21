@@ -645,19 +645,19 @@ type CharacterConfig = {
 const mikasaObj: CharacterConfig = {
   id:'mikasa',
   systemPrompt: MIKASA_SYSTEM_PROMPT,
-  voiceId: '5f2517fc-ea7a-484f-84c4-3a1e361adecb',
+  voiceId: '46baa88f-bb8f-4757-98ba-f65f9c4ac19e',
 };
 
 const painObj: CharacterConfig = {
   id:'pain',
   systemPrompt: PAIN_SYSTEM_PROMPT,
-  voiceId: '5f2517fc-ea7a-484f-84c4-3a1e361adecb',
+  voiceId: 'a4c91117-8781-4766-8284-b5ebeb569d36',
 };
 
 const leviObj: CharacterConfig = {
   id:'levi',
   systemPrompt: LEVI_SYSTEM_PROMPT,
-  voiceId: '5f2517fc-ea7a-484f-84c4-3a1e361adecb',
+  voiceId: '11fbaf1c-dd29-46df-9994-92e7f31f9586',
 };
 
 @Injectable()

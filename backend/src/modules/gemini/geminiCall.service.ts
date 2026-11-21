@@ -24,7 +24,7 @@ export class GeminiCallService {
 
         await this.messageService.saveMessage(MessageRole.User,prompt,"abc123");
 
-        const messages = await this.messageService.retrieveMessage("abc123",5);
+        const messages = await this.messageService.retrieveMessage("abc123",10);
 
         let fullResponseText = "";
 
