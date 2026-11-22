@@ -146,7 +146,7 @@ export function Chat() {
 
   useEffect(() => {
     if (shownError) {
-      NotificationError('Something went wrong. Please try again.', {
+      NotificationError(shownError, {
         autoClose: true,
         autoCloseDuration: 5000,
       });
@@ -170,9 +170,6 @@ export function Chat() {
       });
     }
   }, [isReady,isRecording, NotificationSuccess]);
-
-  let characterName = character.toString();
-  characterName.toUpperCase();
 
   return (
     <div>
@@ -214,7 +211,7 @@ export function Chat() {
                       <div className='flex gap-2'>
 
                         <div className=' w-full flex flex-col gap-2'>
-                          <p className=' text-xl '><span className=' glass rounded-full px-2'><span className='bg-linear-to-r from-green-700 to-blue-500 bg-clip-text text-transparent'>{characterName}</span></span></p>
+                          <p className=' text-xl '><span className=' glass rounded-full px-2'><span className='bg-linear-to-r from-green-700 to-blue-500 bg-clip-text text-transparent'>{character}</span></span></p>
                           <div className='relative max-h-28 overflow-y-scroll no-scrollbar '
                             ref={scrollRef}
                             onScroll={onScroll}

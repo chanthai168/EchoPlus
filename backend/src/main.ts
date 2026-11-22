@@ -12,13 +12,13 @@ async function bootstrap() {
   app.useStaticAssets(resolve(process.cwd(), 'uploads'), { prefix: '/uploads/' });
 
   // allow all origine (work well with development phase)
-  // app.enableCors();
+  app.enableCors();
 
-  app.enableCors({
-    origin: 'https://echoplus.sanchanthai012.workers.dev/', 
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    credentials: true,
-  });
+  // app.enableCors({
+  //   origin: 'https://echoplus.sanchanthai012.workers.dev/', 
+  //   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  //   credentials: true,
+  // });
 
   // Enable ValidationPips - without this DTO decorator do nothing!
   app.useGlobalPipes(

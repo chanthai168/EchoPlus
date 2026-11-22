@@ -23,10 +23,12 @@ export function useVoiceStreamer() {
       const socket = getSocket();
 
       const onInterim = ({ text }: { text: string }) => setInterim(text);
+
       const onFinal = ({ text }: { text: string }) => {
         setFinals((prev) => [...prev, text]);
         setInterim('');
       };
+
       socket.on('transcript-interim', onInterim);
       socket.on('transcript-final', onFinal);
       offRef.current = () => {
@@ -51,19 +53,16 @@ export function useVoiceStreamer() {
         if (socket.connected) socket.emit('audio-chunk', e.data);
       };
 
-      // start sending only after the server's Gemini session is ready
-      socket.once('recording-ready', () => {
-        try{
-          source.connect(node)
-          setIsReady(true);
-        }
-        catch(e){
-          setIsReady(false);
-        }
-
-      });
-
       setIsRecording(true);
+      
+      // catches even if it arrived during addModule
+      await new Promise<void>((res) => socket.once('recording-ready', res)); 
+      
+      // user stopped meanwhile
+      if (audioCtxRef.current !== audioCtx) return; 
+      source.connect(node);
+      setIsReady(true);
+
     } catch (err) {
       console.error('Failed to start recording', err);
     }

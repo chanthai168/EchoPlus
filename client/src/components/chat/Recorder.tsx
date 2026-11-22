@@ -35,7 +35,7 @@ function handleStartRecording(){
   startRecording();
 }
   return (
-    <button className=" glass w-11 h-11 flex justify-center items-center text-white rounded-full"
+    <button className=" glass w-11 h-11 flex justify-center items-center text-white rounded-full active:scale-104 transition-all"
         onClick={isRecording ? handlestopRecording : handleStartRecording}>
         {isRecording ? StopIcon : RecordIcon}
     </button>
