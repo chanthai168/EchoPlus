@@ -187,7 +187,7 @@ export function Chat() {
 
       {/* conversation list: unchanged, but add key={i} to the .map item */}
 
-      <div className='h-150 flex justify-end  '>
+      <div className='h-[80vh] flex justify-end  '>
         {isChatListOpen && (
           <div 
               ref={outerScrollRef}
