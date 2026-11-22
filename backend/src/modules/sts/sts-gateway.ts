@@ -237,7 +237,7 @@ export class TtsGateway {
   ) {
     const character = await this.characterService.getAvailableCharacter(
       'userId',
-      data.characterId,
+      data.characterId.toLocaleLowerCase(),
     );
 
     if(!character) {

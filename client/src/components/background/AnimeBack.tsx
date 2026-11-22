@@ -76,7 +76,7 @@ return (
     <img
       src={characters.get(character)}
       alt={character}
-      className="h-[90vh] w-auto lg:w-screen lg:h-auto max-w-none"
+      className="h-screen w-auto lg:w-screen lg:h-auto max-w-none"
     />
   </div>
 );
