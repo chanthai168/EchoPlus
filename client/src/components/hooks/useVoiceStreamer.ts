@@ -23,24 +23,42 @@ export function useVoiceStreamer() {
       const socket = getSocket();
 
       const onInterim = ({ text }: { text: string }) => setInterim(text);
-
       const onFinal = ({ text }: { text: string }) => {
         setFinals((prev) => [...prev, text]);
         setInterim('');
       };
 
+
+      // 1) Register recording-ready BEFORE anything can make the server emit it
+      let onReady!: () => void;
+      const ready = new Promise<void>((res) => {
+        onReady = res;
+        socket.once('recording-ready', onReady);
+      });
+
       socket.on('transcript-interim', onInterim);
       socket.on('transcript-final', onFinal);
+      socket.on('error',(message:string)=>{
+        console.log(message);
+      });
+
+      const begin = () => socket.emit('start-recording', {});
+      socket.once('connect', begin); // only used if not yet connected
+
       offRef.current = () => {
         socket.off('transcript-interim', onInterim);
         socket.off('transcript-final', onFinal);
+        socket.off('recording-ready', onReady);
+        socket.off('connect', begin);
+        onReady(); // unblock the pending await so it doesn't hang after stop
       };
 
-      // the shared socket may already be connected, so 'connect' won't fire again
-      const begin = () => socket.emit('start-recording', {});
-      if (socket.connected) begin();
-      else socket.once('connect', begin);
+      if (socket.connected) {
+        socket.off('connect', begin);
+        begin();
+      }
 
+      // 2) Now do the slow work; the listener is already armed
       const audioCtx = new AudioContext();
       audioCtxRef.current = audioCtx;
       await audioCtx.audioWorklet.addModule('/pcm-processor.js');
@@ -54,15 +72,15 @@ export function useVoiceStreamer() {
       };
 
       setIsRecording(true);
-      
-      // catches even if it arrived during addModule
-      await new Promise<void>((res) => socket.once('recording-ready', res)); 
-      
-      // user stopped meanwhile
-      if (audioCtxRef.current !== audioCtx) return; 
+
+      // 3) Resolves immediately if the event already fired during addModule
+      await ready;
+
+      // user stopped meanwhile (stopRecording nulls the ref and calls onReady)
+      if (audioCtxRef.current !== audioCtx) return;
+
       source.connect(node);
       setIsReady(true);
-
     } catch (err) {
       console.error('Failed to start recording', err);
     }

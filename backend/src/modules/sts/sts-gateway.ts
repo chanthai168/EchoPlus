@@ -99,7 +99,7 @@ export class TtsGateway {
     @MessageBody() chunk: Buffer, // Socket.IO automatically converts ArrayBuffer → Buffer
   ) {
     // 1 wrap and send chunk to Gemini Transcript websocket service
-    this.geminiTranscript.sendAudioChunk(chunk);
+    this.geminiTranscript.sendAudioChunk(client.id,chunk);
   }
 
   @SubscribeMessage('stop-recording')
@@ -108,8 +108,8 @@ export class TtsGateway {
 
     console.log(`Stopped recording for ${client.id}`);
 
-    // disconnect to gemini ws when stop recording
-    this.geminiTranscript.close();
+    // Signal audio completion and keep Gemini connected until it returns the final transcript.
+    this.geminiTranscript.finishAudioInput(client.id);
   }
 
   @SubscribeMessage('interrupt')
@@ -336,7 +336,7 @@ export class TtsGateway {
   handleDisconnect(client: Socket) {
     console.log(`Client disconnected: ${client.id}`);
     this.cancelRun(client.id);
-    this.geminiTranscript.close();
+    this.geminiTranscript.close(client.id);
 
     // close cartesia connection
     this.closeCartesiaWs(client.id);
