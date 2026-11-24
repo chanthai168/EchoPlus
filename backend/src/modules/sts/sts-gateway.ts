@@ -18,7 +18,7 @@ import Cartesia from '@cartesia/cartesia-js';
 @WebSocketGateway({
   cors: { origin: '*' }, // tighten in production
 })
-export class TtsGateway {
+export class StsGateway {
   @WebSocketServer()
   server!: Server;
 
@@ -237,7 +237,7 @@ export class TtsGateway {
   ) {
     const character = await this.characterService.getAvailableCharacter(
       'userId',
-      data.characterId.toLocaleLowerCase(),
+      data.characterId.toLowerCase(),
     );
 
     if(!character) {

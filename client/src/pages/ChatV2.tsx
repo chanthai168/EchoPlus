@@ -54,7 +54,7 @@ export function Chat() {
   const [formError, setFormError] = useState('');
   const [conversation, setConversation] = useState<Conversation>(mydata);
   const { setStage } = useStage();
-  const [isChatListOpen,setIsChatListOpen] = useState<boolean>(true);
+  const [isChatListOpen,setIsChatListOpen] = useState<boolean>(false);
 
   const { text: spokenText, phase, error, send, stop,analyser } = useVoiceChat(url);
 
@@ -157,7 +157,7 @@ export function Chat() {
     if (isReady) {
       NotificationSuccess('Call connected.', {
         autoClose: true,
-        autoCloseDuration: 5000,
+        autoCloseDuration: 1500,
       });
     }
   }, [isReady, NotificationSuccess]);
@@ -166,7 +166,7 @@ export function Chat() {
     if (isReady == false && isRecording == true) {
       NotificationSuccess('Calling...', {
         autoClose: true,
-        autoCloseDuration: 5000,
+        autoCloseDuration: 1500,
       });
     }
   }, [isReady,isRecording, NotificationSuccess]);
